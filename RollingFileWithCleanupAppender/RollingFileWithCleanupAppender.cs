@@ -176,9 +176,9 @@ namespace RollingFileWithCleanupAppender
 			//This is a file i/o pattern, not a regex
 
 			if (this.PreserveLogFileNameExtension) {
-				return string.Format("{0}*{1}", Path.GetFileNameWithoutExtension(baseFileName), Path.GetExtension(baseFileName));
+				return string.Format("{0}.*{1}", Path.GetFileNameWithoutExtension(baseFileName), Path.GetExtension(baseFileName));
 			} else {
-				return string.Format("{0}*", baseFileName);
+				return string.Format("{0}.*", baseFileName);
 			}
 		}
 
@@ -188,17 +188,23 @@ namespace RollingFileWithCleanupAppender
 		/// </summary>
 		/// <param name="baseFileName"></param>
 		/// <returns></returns>
-		private string GetRegexPatternForFile(string baseFileName)
-		{
-			//This is a regex
+		//private string GetRegexPatternForFile(string baseFileName)
+		//{
+		//	//This is a regex to match files based off the DatePattern
+		//	//It is NOT used because parsing the datePattern is extremely complicated due to the complexity
+		//	//of the SimpleDateFormatter and internationalizations
 
-			if (this.PreserveLogFileNameExtension) {
-				return string.Format(@"{0}(.*\.){1}", Path.GetFileNameWithoutExtension(baseFileName), Path.GetExtension(baseFileName).Substring(1));
-			} else {
-				return string.Format("{0}(*)", baseFileName);
-			}
-		}
+		//	//parse the datePattern
+		//	if (this.PreserveLogFileNameExtension) {
+		//		return string.Format(@"{0}(.*\.){1}", Path.GetFileNameWithoutExtension(baseFileName), Path.GetExtension(baseFileName).Substring(1));
+		//	} else {
+		//		return string.Format("{0}(*)", baseFileName);
+		//	}
+		//}
 
+		//This is a regex to match files based off the DatePattern
+		//It is NOT used because parsing the datePattern is extremely complicated due to the complexity
+		//of the SimpleDateFormatter and internationalizations
 		//private string GetDatePatternRegEx(string datePattern)
 		//{
 		//	string regex;
@@ -235,18 +241,12 @@ namespace RollingFileWithCleanupAppender
 		//			} else {
 		//				//start of a new segment
 		//				pattern.Append(ParseSegmentToRegEx(curSegment.ToString()));
-
 		//				//start over
 		//				lastChar = c;
 		//				curSegment.Clear();
-
 		//			}
-
 		//		}
-
 		//	}
-
-
 		//	return pattern.ToString();
 		//}
 
@@ -258,87 +258,87 @@ namespace RollingFileWithCleanupAppender
 		//			break;
 		//		case "dd":  //The day of the month, from 01 through 31.
 		//			break;
-		//		case "ddd":
+		//		case "ddd": //The abbreviated name of the day of the week.
 		//			break;
-		//		case "dddd":
+		//		case "dddd": //The full name of the day of the week.
 		//			break;
-		//		case "f":
+		//		case "f":  //The tenths of a second in a date and time value.
 		//			break;
-		//		case "ff":
+		//		case "ff": //The hundredths of a second in a date and time value.
 		//			break;
-		//		case "fff":
+		//		case "fff":  //The milliseconds in a date and time value.
 		//			break;
-		//		case "ffff":
+		//		case "ffff":  //The ten thousandths of a second in a date and time value.
 		//			break;
-		//		case "fffff":
+		//		case "fffff":  //The hundred thousandths of a second in a date and time value.
 		//			break;
-		//		case "ffffff":
+		//		case "ffffff": //The millionths of a second in a date and time value.
 		//			break;
-		//		case "fffffff":
+		//		case "fffffff":   //The ten millionths of a second in a date and time value.
 		//			break;
-		//		case "F":
+		//		case "F":  //If non-zero, the tenths of a second in a date and time value.
 		//			break;
-		//		case "FF":
+		//		case "FF":   //If non-zero, the hundredths of a second in a date and time value.
 		//			break;
-		//		case "FFF":
+		//		case "FFF":   //If non-zero, the milliseconds in a date and time value.
 		//			break;
-		//		case "FFFF":
+		//		case "FFFF":   // If non-zero, the ten thousandths of a second in a date and time value.
 		//			break;
-		//		case "FFFFF":
+		//		case "FFFFF":  //If non-zero, the hundred thousandths of a second in a date and time value.
 		//			break;
-		//		case "FFFFFF":
+		//		case "FFFFFF":  //If non-zero, the millionths of a second in a date and time value.
 		//			break;
-		//		case "FFFFFFF":
+		//		case "FFFFFFF":   /If non-zero, the ten millionths of a second in a date and time value.
 		//			break;
-		//		case "g":
+		//		case "g":  //The period or era.
 		//			break;
 		//		case "gg":
 		//			break;
-		//		case "h":
+		//		case "h":   //The hour, using a 12-hour clock from 1 to 12.
 		//			break;
-		//		case "hh":
+		//		case "hh":  //The hour, using a 12-hour clock from 01 to 12.
 		//			break;
-		//		case "H":
+		//		case "H":  //The hour, using a 24-hour clock from 0 to 23.
 		//			break;
-		//		case "HH":
+		//		case "HH":   //The hour, using a 24-hour clock from 00 to 23.
 		//			break;
-		//		case "K":
+		//		case "K":  //Time zone information.
 		//			break;
-		//		case "m":
+		//		case "m":  //The minute, from 0 through 59.
 		//			break;
-		//		case "mm":
+		//		case "mm":  //The minute, from 00 through 59.
 		//			break;
-		//		case "M":
+		//		case "M":  //The month, from 1 through 12.
 		//			break;
-		//		case "MM":
+		//		case "MM":  //The month, from 01 through 12.
 		//			break;
-		//		case "MMM":
+		//		case "MMM":   //The abbreviated name of the month. 
 		//			break;
-		//		case "MMMM":
+		//		case "MMMM":  //The full name of the month.
 		//			break;
-		//		case "s":
+		//		case "s":   //The second, from 0 through 59.
 		//			break;
-		//		case "ss":
+		//		case "ss":   //The second, from 00 through 59.
 		//			break;
-		//		case "t":
+		//		case "t":   //The first character of the AM/PM designator.
 		//			break;
-		//		case "tt":
+		//		case "tt":  //The AM/PM designator.
 		//			break;
-		//		case "y":
+		//		case "y":  //The year, from 0 to 99.
 		//			break;
-		//		case "yy":
+		//		case "yy":  //The year, from 00 to 99.
 		//			break;
-		//		case "yyy":
+		//		case "yyy":  //The year, with a minimum of three digits.
 		//			break;
-		//		case "yyyy":
+		//		case "yyyy":  //The year as a four-digit number.
 		//			break;
-		//		case "yyyyy":
+		//		case "yyyyy":  //The year as a five-digit number.
 		//			break;
-		//		case "z":
+		//		case "z":  //Hours offset from UTC, with no leading zeros.
 		//			break;
-		//		case "zz":
+		//		case "zz":  //Hours offset from UTC, with a leading zero for a single-digit value.
 		//			break;
-		//		case "zzz":
+		//		case "zzz":  //Hours and minutes offset from UTC.
 		//			break;
 		//		default:
 		//			break;
