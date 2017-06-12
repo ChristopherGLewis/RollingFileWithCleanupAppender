@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') { 
             steps { 
-                C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe
+                MSBuild RollingFileWithCleanupAppender.sln /t:Rebuild /p:Configuration=Release
             }
         }
     }
