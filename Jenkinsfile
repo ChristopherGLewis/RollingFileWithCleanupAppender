@@ -4,7 +4,8 @@ pipeline {
     stages {
         stage('Build') { 
             steps { 
-                MSBuild 
+                bat "\"${tool 'MSBuild'}\" RollingFileWithCleanupAppender.sln /p:Configuration=Release 
+ 
             }
         }
     }
